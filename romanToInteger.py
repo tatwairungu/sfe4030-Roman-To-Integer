@@ -11,6 +11,14 @@ class RomanNumeral:
     }
 
     def roman_to_int(self, s: str) -> int:
+        if not s:
+            raise ValueError("Input cannot be empty.")
+
+        # Ensure all characters are valid Roman numerals
+        for ch in s:
+            if ch not in self.map:
+                raise ValueError(f"'{ch}' is not a valid Roman numeral symbol.")
+
         converted_number = 0
         for i in range(len(s)):
             current_number = self.map[s[i]]
@@ -26,6 +34,19 @@ class RomanNumeral:
 
 if __name__ == "__main__":
     converter = RomanNumeral()
-    print(converter.roman_to_int("XIV"))    # Expected 14
-    print(converter.roman_to_int("MCMXC"))  # Expected 1990
-    print(converter.roman_to_int("LVIII"))  # Expected 58
+
+    print("🧮 Roman Numeral Converter")
+    print("Type 'exit' to quit.\n")
+
+    while True:
+        user_input = input("Enter a Roman numeral: ").strip().upper()
+
+        if user_input.lower() == "exit":
+            print("Goodbye! 👋")
+            break
+
+        try:
+            result = converter.roman_to_int(user_input)
+            print(f"✅ {user_input} = {result}\n")
+        except ValueError as e:
+            print(f"❌ Error: {e}\n")
